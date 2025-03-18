@@ -1,7 +1,7 @@
 # Graph.py -- Graph Parsing Class
 # ----------------------------------------------------------------------------------------
 # This module provides the `Graph` class, which is responsible for
-# parsing a map file (map.txt) and storing the graph data structure.
+# parsing a map file and storing the graph data structure.
 #
 # Main functionalities:
 # 1. Parse the map file and extract:
