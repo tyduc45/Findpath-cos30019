@@ -117,3 +117,5 @@ class Graph:
         print("Graph structure:")
         for node, neighbors in self.nodes.items():
             print(f"  Node {node}: {neighbors}")
+
+
