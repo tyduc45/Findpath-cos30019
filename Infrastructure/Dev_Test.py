@@ -34,7 +34,6 @@ def main():
     print("Origin:", origin)
     print("Destinations:", destinations)
 
-    print("\nGraph Structure:")
     graph.print_graph()
 
 if __name__ == "__main__":
