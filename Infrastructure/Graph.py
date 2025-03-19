@@ -49,31 +49,33 @@ class Graph:
                 lines = file.readlines()
         except FileNotFoundError:
             print(f"Error: File '{filename}' not found.")
-            return None, None
+            # Return None if the file is missing
+            return None, None, None
 
         reading_nodes = False
         reading_edges = False
 
-        for lines in lines:
-            line = lines.strip()
-            if not line or line.startswith('#'):
+        i = 0
+        while i < len(lines):
+            line = lines[i].strip()
+            if not line or line.startswith("#"):
+                i += 1
                 continue  # Skip empty lines and comments
             if line.startswith("Nodes:"):
                 reading_nodes = True
                 reading_edges = False
-                continue
             elif line.startswith("Edges:"):
                 reading_nodes = False
                 reading_edges = True
-                continue
             elif line.startswith("Origin:"):
-                self.origin = int(line.split(":")[1].strip())
-                continue
+                i += 1  # Move to the next line
+                if i < len(lines):
+                    self.origin = int(lines[i].strip())  # Read the next line as the origin
             elif line.startswith("Destinations:"):
-                self.destinations = list(map(int, line.split(":")[1].strip().split(";")))
-                continue
-
-            if reading_nodes:
+                i += 1  # Move to the next line
+                if i < len(lines):
+                    self.destinations = list(map(int, lines[i].strip().split(";")))  # Read next line as destinations
+            elif reading_nodes:
                 node_id = int(line.split(":")[0].strip())
                 self.add_node(node_id)
             elif reading_edges:
@@ -81,6 +83,8 @@ class Graph:
                 node1, node2 = map(int, edge_info.strip("()").split(","))
                 weight = int(weight.strip())
                 self.add_edge(node1, node2, weight, directed=True)
+
+            i += 1  # Move to the next line
 
         return self, self.origin, self.destinations  # Parsing complete, return origin and destination nodes
 
