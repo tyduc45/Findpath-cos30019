@@ -24,7 +24,7 @@ def main():
     test_map = "test_map.txt"
 
     graph = Graph()
-    graph, origin, destinations = Graph.parse_graph(graph, test_map)
+    graph, origin, destinations = graph.parse_graph(test_map)
 
     if graph is None:
         print("Failed to load graph from file")
