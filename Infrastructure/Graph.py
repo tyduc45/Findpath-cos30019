@@ -82,7 +82,7 @@ class Graph:
                 weight = int(weight.strip())
                 self.add_edge(node1, node2, weight, directed=True)
 
-        return self.origin, self.destinations  # Parsing complete, return origin and destination nodes
+        return self, self.origin, self.destinations  # Parsing complete, return origin and destination nodes
 
     # Retrieve all nodes in the graph
     def get_nodes(self):
