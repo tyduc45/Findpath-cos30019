@@ -19,12 +19,23 @@
 #
 
 from Graph import Graph
+from algorithm_jzy.dfs import DFS
+from algorithm_jzy.gbfs import GBFS
+
 
 def main():
     test_map = "test_map.txt"
 
     graph = Graph()
     graph, origin, destinations = graph.parse_graph(test_map)
+
+    dfs = DFS(graph, origin, destinations)
+    dfs.dfs_calculate()
+    result = dfs.get_result()
+
+    gbfs = GBFS(graph, origin, destinations)
+    gbfs.gbfs_calculate()
+    result2 = gbfs.get_result()
 
     if graph is None:
         print("Failed to load graph from file")
@@ -35,6 +46,8 @@ def main():
     print("Destinations:", destinations)
 
     graph.print_graph()
+    print("\nDFS: Path found:", result)
+    print("\nGBFS: Path found:", result2)
 
 if __name__ == "__main__":
     main()
