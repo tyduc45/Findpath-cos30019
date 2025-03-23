@@ -16,6 +16,8 @@
 # This implementation works with the `Graph` class, where nodes are connected by weighted edges.
 # It ensures that when paths have the same cost, paths with numerically smaller nodes are preferred.
 #
+# In This Code, AI HAS BEEN USED TO HELP AND STUDY WHAT IS A* ALGORITHM.
+#
 # ----------------------------------------------------------------------------------------
 # Written by Xiaonan Li, 105206175
 # Date: 23/03/2025
