@@ -11,7 +11,7 @@
 # 5. `peek()`: Returns the smallest element without removing it.
 # 6. `__len__()`: Returns the number of elements in the heap.
 #
-# This heap is primarily designed for **A* search**, where elements are stored as
+# This heap is primarily designed for A* search, where elements are stored as
 # `(f(n), node, path)`, ensuring that nodes with the lowest cost are expanded first.
 # ----------------------------------------------------------------------------------------
 # Written by Yifan Li / Xiaonan Li
