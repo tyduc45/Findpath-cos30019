@@ -19,12 +19,16 @@
 #
 
 from Graph import Graph
+from Astar.astar import Astar
 
 def main():
     test_map = "test_map.txt"
 
     graph = Graph()
     graph, origin, destinations = graph.parse_graph(test_map)
+
+    astar = Astar(graph, origin, destinations)
+    result = astar.search()
 
     if graph is None:
         print("Failed to load graph from file")
@@ -35,6 +39,8 @@ def main():
     print("Destinations:", destinations)
 
     graph.print_graph()
+
+    print("Result:", result)
 
 if __name__ == "__main__":
     main()
