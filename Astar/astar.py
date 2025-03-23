@@ -1,4 +1,4 @@
-# Astar.py - A* Search Algorithm using Custom MinHeap
+# Astar.py -- A* Search Algorithm using Custom MinHeap
 # ----------------------------------------------------------------------------------------
 # This module implements the A* search algorithm for finding the shortest path in a graph.
 # The algorithm uses a custom MinHeap as a priority queue, ensuring that nodes with

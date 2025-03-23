@@ -20,6 +20,8 @@
 
 from Graph import Graph
 from Astar.astar import Astar
+from algorithm_jzy.dfs import DFS
+from algorithm_jzy.gbfs import GBFS
 
 def main():
     test_map = "test_map.txt"
@@ -27,8 +29,16 @@ def main():
     graph = Graph()
     graph, origin, destinations = graph.parse_graph(test_map)
 
+    dfs = DFS(graph, origin, destinations)
+    dfs.dfs_calculate()
+    result = dfs.get_result()
+
+    gbfs = GBFS(graph, origin, destinations)
+    gbfs.gbfs_calculate()
+    result2 = gbfs.get_result()
+
     astar = Astar(graph, origin, destinations)
-    result = astar.search()
+    result3 = astar.search()
 
     if graph is None:
         print("Failed to load graph from file")
@@ -40,7 +50,9 @@ def main():
 
     graph.print_graph()
 
-    print("Result:", result)
+    print("\nDFS Result:", result)
+    print("\nGBFS Result:", result2)
+    print("\nA* Result:", result3)
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-# Min_Heap.py - Custom Min Heap Implementation
+# Min_Heap.py -- Custom Min Heap Implementation
 # ----------------------------------------------------------------------------------------
 # This module provides a custom implementation of MinHeap,
 # which is used as a priority queue for the A* search algorithm.

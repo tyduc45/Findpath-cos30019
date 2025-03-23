@@ -1,4 +1,4 @@
-# Itertools.py - Custom Implementation of itertools.count()
+# Itertools.py -- Custom Implementation of itertools.count()
 # ----------------------------------------------------------------------------------------
 # This module provides a custom implementation of `itertools.count()`.
 # The `count()` function generates an infinite sequence of numbers, starting from 0,
