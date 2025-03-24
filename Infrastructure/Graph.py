@@ -9,12 +9,14 @@
 #    - Edges (Edges) (both directed & undirected)
 #    - Origin (starting node)
 #    - Destinations (goal nodes)
+#    - Coordinates (Node Coordinates)(Yifan Li on 2025/03/24)
 # 2. Store the graph using an adjacency list (Adjacency List)
 # 3. Provide query functions:
 #    - `get_neighbors(node)`: Retrieve the neighbors of a node
 #    - `get_edges()`: Get all edges in the graph
 #    - `has_edge(node1, node2)`: Check if an edge exists between two nodes
 #    - `get_edge_weight(node1, node2)`: Get the weight of an edge
+#    - `get_position(filename, node_index)`: Get the position of a node (Yifan Li on 2025/03/24)
 # ----------------------------------------------------------------------------------------
 # Written by Xiaonan Li, 105206175
 # Date: 18/03/2025
@@ -117,3 +119,47 @@ class Graph:
         print("Graph structure:")
         for node, neighbors in self.nodes.items():
             print(f"  Node {node}: {neighbors}")
+
+    def get_X_Y(self, line):
+        if line is None:
+            return None,None
+        index = int(line.split(":")[0].strip())
+        after_colon = line.split(":")[1].strip()
+        inner = after_colon[1:-1]
+
+        _X_Y_Cor = tuple(int(x) for x in inner.split(","))
+
+        return index,_X_Y_Cor
+
+    # (Yifan Li on 2025 / 03 / 24)
+    def get_position(self,filename,node_index):
+        try:
+            with open(filename, 'r') as file:
+                lines = file.readlines()
+        except FileNotFoundError:
+            print(f"Error: File '{filename}' not found.")
+            # Return None if the file is missing
+            return
+
+        node_position = {}
+        getting_position = False
+
+        for line in lines:
+            line = line.strip()
+
+            if not line or line.startswith("#"):
+                continue
+
+            if line.startswith("Nodes:"):
+                getting_position = True
+                continue
+
+            if line.startswith("Edges:"):
+                getting_position = False
+                break
+
+            if getting_position:
+                index, position = self.get_X_Y(line)
+                node_position[index] = position
+
+        return node_position.get(node_index)
