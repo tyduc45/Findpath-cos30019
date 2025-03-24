@@ -9,7 +9,7 @@
 #    - Edges (Edges) (both directed & undirected)
 #    - Origin (starting node)
 #    - Destinations (goal nodes)
-#    - Coordinates (Node Coordinates)(Yifan Li on 2025/03/24)
+#    - Coordinates (Node Coordinates) (Yifan Li on 2025/03/24)
 # 2. Store the graph using an adjacency list (Adjacency List)
 # 3. Provide query functions:
 #    - `get_neighbors(node)`: Retrieve the neighbors of a node

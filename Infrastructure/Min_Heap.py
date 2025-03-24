@@ -79,3 +79,16 @@ class MinHeap:
     # Return the number of elements in the heap
     def __len__(self):
         return len(self.heap)
+
+    # Custom comparison function for tuples in the heap
+    def compare(self, a, b):
+        if len(a) != len(b):
+            return None
+        for i in range(len(a)):
+            if a[i] == b[i]:
+                continue
+            elif a[i] < b[i]:
+                return -1
+            else:
+                return 1
+        return 0
