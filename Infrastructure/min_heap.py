@@ -1,14 +1,28 @@
+# note : we are taking {dist[v],v} as the element of the MinHeap, dist[v] is the key thing we want to compare!!!
+
+def compare(a, b):
+    if len(a) != len(b):
+        return None
+    for i in range(len(a)):
+        if a[i] == b[i]:
+            continue
+        elif a[i] < b[i]:
+            return -1
+        else:
+            return 1
+    return 0
+
+
 class MinHeap:
     def __init__(self):
         self.data = []                  # empty datalist for heap
-
 
     def swap(self,i,j):
         self.data[i], self.data[j] = self.data[j], self.data[i]
 
     def heapify_up(self,index):         # recover heap from bottom to top
         parent = (index - 1) // 2
-        while index > 0 and self.data[index] > self.data[parent]:
+        while index > 0 and compare(self.data[index], self.data[parent]) < 0:
             self.swap(index, parent)
             index = parent
             parent = (index - 1) // 2
@@ -22,18 +36,17 @@ class MinHeap:
             right = index * 2 + 2
 
             # compare to the left
-            if left < n and self.data[smallest][0] > self.data[left][0]:
+            if left < n and compare(self.data[smallest] ,self.data[left]) > 0:
                 smallest = left
 
             # compare to the right
-            if right < n and self.data[smallest][0] > self.data[right][0]:
+            if right < n and compare(self.data[smallest][0] , self.data[right][0]) > 0:
                 smallest = right
 
             # if no more changes on the index , we stop
             if smallest == index:
                 break
 
-            #
             self.swap(index, smallest)
             index = smallest
 
