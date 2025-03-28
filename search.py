@@ -1,6 +1,6 @@
 import sys
 import subprocess
-from Graph import Graph
+from Infrastructure.Graph import Graph
 
 # 设定支持的搜索算法
 ALGORITHMS = {
