@@ -26,8 +26,8 @@ from algorithm_jzy.gbfs import GBFS
 def main():
     test_map = "test_map.txt"
 
-    graph = Graph()
-    graph, origin, destinations = graph.parse_graph(test_map)
+    graph = Graph(test_map)
+    graph, origin, destinations = graph.parse_graph()
 
     dfs = DFS(graph, origin, destinations)
     dfs.dfs_calculate()

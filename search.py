@@ -27,8 +27,8 @@ def main():
         sys.exit(1)
 
     # 解析图文件
-    graph = Graph()
-    graph, origin, destinations = graph.parse_graph(filename)
+    graph = Graph(filename)
+    graph, origin, destinations = graph.parse_graph()
 
     if graph is None:
         print("Error parsing graph. Exiting.")
