@@ -18,15 +18,16 @@ def Ida_star(start,goal,graph,filename):
     visited_node = 0
     path = [start]
 
-    visited_set = set()
+    visited_set = {start}
     start_Cor = graph.get_position(filename, start)
     goal_Cor  = graph.get_position(filename, goal)
 
+
     threshold = h_func(start_Cor,goal_Cor)
 
-    def dfs(node, g_func, threshold):
-        nonlocal visited_node
 
+    def dfs(node, g_func, threshold):
+        nonlocal visited_node,min_threshold
 
         node_Cor = graph.get_position(filename, node)
         f_func = g_func + h_func(node_Cor,goal_Cor)
@@ -36,29 +37,34 @@ def Ida_star(start,goal,graph,filename):
         if node == goal:
             return "FOUND"
 
-        min_threshold = float('inf')                            # record the smallest exceed value
         for neighbor in graph.get_neighbors(node):
             if neighbor in path:
                 continue
-            path.append(neighbor)
+
             if neighbor in visited_set:
                 continue
             visited_set.add(neighbor)
             visited_node += 1
-            temp = dfs(neighbor, g_func + graph.get_edge_weight(node,neighbor), threshold)
+
+            path.append(neighbor)
+            weight = graph.get_edge_weight(node,neighbor)
+
+            temp = dfs(neighbor, g_func + weight, threshold)
             if temp == "FOUND":
                 return "FOUND"
             if isinstance(temp,(int,float)) and temp < min_threshold:
                 min_threshold = temp
             path.pop()                                          # not found in [A,B,C], then we back track to [A,B]
+            visited_set.remove(neighbor)                        # delete access record
         return min_threshold
 
     while True:
+        min_threshold = float('inf')              # record the smallest exceed value
         temp = dfs(start, 0, threshold)
-
         if temp == "FOUND":
             return path[:],visited_node
         if temp == float("inf"):
+            print("no solution")
             return [],visited_node                              # no solution
         threshold = temp                                        # iterative deepen
 
