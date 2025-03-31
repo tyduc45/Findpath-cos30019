@@ -56,9 +56,9 @@ if __name__ == "__main__":
 
     print(filename, method)
 
-    graph = Graph()  # Initialize graph
+    graph = Graph(filename)  # Initialize graph
 
-    graph, origin, destinations = graph.parse_graph(filename)  # Parse input graph file
+    graph, origin, destinations = graph.parse_graph()  # Parse input graph file
 
     dist, prev, number_of_nodes = dijkstra(graph, origin)  # Run Dijkstra’s algorithm
 

@@ -19,8 +19,8 @@ def Ida_star(start,goal,graph,filename):
     path = [start]
 
     visited_set = {start}
-    start_Cor = graph.get_position(filename, start)
-    goal_Cor  = graph.get_position(filename, goal)
+    start_Cor = graph.get_position(start)
+    goal_Cor  = graph.get_position(goal)
 
 
     threshold = h_func(start_Cor,goal_Cor)
@@ -29,7 +29,7 @@ def Ida_star(start,goal,graph,filename):
     def dfs(node, g_func, threshold):
         nonlocal visited_node,min_threshold
 
-        node_Cor = graph.get_position(filename, node)
+        node_Cor = graph.get_position(node)
         f_func = g_func + h_func(node_Cor,goal_Cor)
 
         if f_func > threshold:
@@ -76,9 +76,9 @@ if __name__ == "__main__":
 
     print(filename, method)
 
-    graph = Graph()
+    graph = Graph(filename)
 
-    graph, origin, destinations = graph.parse_graph(filename)
+    graph, origin, destinations = graph.parse_graph()
 
     pathSheet = []
     total = 0
