@@ -1,6 +1,6 @@
 import sys
 import subprocess
-from Infrastructure import Graph
+from Infrastructure.Graph import Graph
 
 # 设定支持的搜索算法
 ALGORITHMS = {
@@ -27,8 +27,8 @@ def main():
         sys.exit(1)
 
     # 解析图文件
-    graph = Graph.Graph()
-    graph, origin, destinations = graph.parse_graph(filename)
+    graph = Graph(filename)
+    graph, origin, destinations = graph.parse_graph()
 
     if graph is None:
         print("Error parsing graph. Exiting.")
@@ -36,7 +36,7 @@ def main():
 
     print(f"Parsed Graph from {filename}")
     print(f"Origin: {origin}, Destinations: {destinations}")
-    #print("Graph structure:")
+    print("Graph structure:")
     graph.print_graph()  # 打印解析出的图结构，方便调试
 
     # 运行相应的搜索算法
@@ -44,11 +44,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-

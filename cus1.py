@@ -2,6 +2,10 @@
 from Infrastructure.Min_Heap import MinHeap
 from Infrastructure.Graph import Graph
 
+# written in Yifan Li 105205224
+
+# compare order dist,node_id, insertion_order
+
 def reconstruct_path(prev, start, end):
     path = []  # Path stack
     current = end
@@ -17,14 +21,14 @@ def reconstruct_path(prev, start, end):
 # Dijkstra’s algorithm for shortest path
 def dijkstra(graph, start):
     number = 0
-    node_list = graph.get_nodes()                      # Retrieve nodes from graph
-    visited = set()                                    # Set of visited nodes
-    prev = [-1 for i in range(len(node_list) + 1)]               # Previous node for each node
+    node_list = graph.get_nodes()  # Retrieve nodes from graph
+    visited = set()  # Set of visited nodes
+    prev = [-1] * (len(node_list) + 1)  # Previous node for each node
     dist = {node: float('inf') for node in node_list}  # Initialize distances to ∞
     dist[start] = 0
 
     pq = MinHeap()
-    pq.push((0, start))                                # Distance to start node is 0
+    pq.push((0, start))
 
     while len(pq) > 0:
         current_dist, node = pq.pop()
