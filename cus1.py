@@ -17,17 +17,17 @@ def reconstruct_path(prev, start, end):
 # Dijkstra’s algorithm for shortest path
 def dijkstra(graph, start):
     number = 0
-    node_list = graph.get_nodes()  # Retrieve nodes from graph
-    visited = set()  # Set of visited nodes
-    prev = [-1] * (len(node_list) + 1)  # Previous node for each node
+    node_list = graph.get_nodes()                      # Retrieve nodes from graph
+    visited = set()                                    # Set of visited nodes
+    prev = [-1 for i in range(len(node_list) + 1)]               # Previous node for each node
     dist = {node: float('inf') for node in node_list}  # Initialize distances to ∞
     dist[start] = 0
 
-    pq = MinHeap()  # ✅ 使用你的 MinHeap
-    pq.push((0, start))  # Distance to start node is 0
+    pq = MinHeap()
+    pq.push((0, start))                                # Distance to start node is 0
 
-    while len(pq) > 0:  # ✅ 修正 `MinHeap` 访问方式
-        current_dist, node = pq.pop()  # ✅ 取出 `f(n)` 最小的节点
+    while len(pq) > 0:
+        current_dist, node = pq.pop()
 
         if node in visited:
             continue
@@ -39,7 +39,7 @@ def dijkstra(graph, start):
             if new_dist < dist[neighbor]:  # If a shorter path is found
                 prev[neighbor] = node
                 dist[neighbor] = new_dist
-                pq.push((new_dist, neighbor))  # ✅ `MinHeap` 负责排序（f(n) 小的优先）
+                pq.push((new_dist, neighbor))
 
     return dist, prev, number
 

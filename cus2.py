@@ -1,3 +1,4 @@
+
 from Infrastructure.Graph import Graph
 
 # we increase the threshold step by step (iterative deepening)
@@ -17,6 +18,7 @@ def Ida_star(start,goal,graph,filename):
     visited_node = 0
     path = [start]
 
+    visited_set = set()
     start_Cor = graph.get_position(filename, start)
     goal_Cor  = graph.get_position(filename, goal)
 
@@ -24,7 +26,7 @@ def Ida_star(start,goal,graph,filename):
 
     def dfs(node, g_func, threshold):
         nonlocal visited_node
-        visited_node += 1
+
 
         node_Cor = graph.get_position(filename, node)
         f_func = g_func + h_func(node_Cor,goal_Cor)
@@ -39,6 +41,10 @@ def Ida_star(start,goal,graph,filename):
             if neighbor in path:
                 continue
             path.append(neighbor)
+            if neighbor in visited_set:
+                continue
+            visited_set.add(neighbor)
+            visited_node += 1
             temp = dfs(neighbor, g_func + graph.get_edge_weight(node,neighbor), threshold)
             if temp == "FOUND":
                 return "FOUND"
