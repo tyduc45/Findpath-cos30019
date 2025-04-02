@@ -1,32 +1,31 @@
 import sys
-import subprocess
+from Astar.astar import Astar
 from Infrastructure.Graph import Graph
+from algorithm_jzy.dfs import DFS
+from algorithm_jzy.gbfs import GBFS
+from bfs import BFS
 
-# 设定支持的搜索算法
 ALGORITHMS = {
-    "DFS": "dfs.py",
-    "BFS": "bfs.py",
-    "GBFS": "gbfs.py",
-    "AS": "astar.py",
-    "CUS1": "cus1.py",
-    "CUS2": "cus2.py"
+    "DFS": DFS,
+    "BFS": BFS,
+    "GBFS": GBFS,
+    "AS": Astar,
+    "CUS1": CUS1,
+    "CUS2": CUS2
 }
 
 def main():
-    # 命令行参数校验
     if len(sys.argv) != 3:
         print("Usage: python search.py <filename> <method>")
         sys.exit(1)
 
-    filename = sys.argv[1]  # 读取图文件
-    method = sys.argv[2].upper()  # 读取搜索方法并转换为大写
+    filename = sys.argv[1]
+    method = sys.argv[2].upper()
 
-    # 检查搜索方法是否合法
     if method not in ALGORITHMS:
         print(f"Invalid method: {method}. Choose from {', '.join(ALGORITHMS.keys())}")
         sys.exit(1)
 
-    # 解析图文件
     graph = Graph(filename)
     graph, origin, destinations = graph.parse_graph()
 
@@ -34,13 +33,31 @@ def main():
         print("Error parsing graph. Exiting.")
         sys.exit(1)
 
+    # Debuging use, Please delete after entire debugging
     print(f"Parsed Graph from {filename}")
     print(f"Origin: {origin}, Destinations: {destinations}")
     print("Graph structure:")
-    graph.print_graph()  # 打印解析出的图结构，方便调试
+    graph.print_graph()
 
-    # 运行相应的搜索算法
-    subprocess.run(["python", ALGORITHMS[method], filename, method])
+    if method == "DFS":
+        search_algo = DFS(graph, origin, destinations)
+        search_algo.dfs_calculate()
+        result = search_algo.get_result()
+    elif method == "BFS":
+        search_algo = BFS(graph, origin, destinations)
+        search_algo.bfs_calculate()
+        result = search_algo.get_result()
+    elif method == "GBFS":
+        search_algo = GBFS(graph, origin, destinations)
+        search_algo.gbfs_calculate()
+        result = search_algo.get_result()
+    elif method == "AS":
+        search_algo = Astar(graph, origin, destinations)
+        result = search_algo.search()
+    # Didn't add 2 cus logic
+    else:
+        print(f"Invalid method: {method}. Choose from DFS, BFS, GBFS, AS, CUS1, CUS2")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
