@@ -3,9 +3,11 @@ class DFS:
     def __init__(self, graph, start, end):
         self.graph = graph
         self.start = start
-        self.end = end
-        self.path = []  # Store current path
-        self.found = False  # Mark whether the path is found
+        self.end = set(end)  # 转换为集合加速查找
+        self.path = []       # 当前路径
+        self.found = False   # 是否找到路径
+        self.nodes_visited = 0
+        self.goal_node = None  # 实际到达的目标点
 
     def dfs_calculate(self, node=None, visited=None):
         if visited is None:
@@ -13,27 +15,25 @@ class DFS:
         if node is None:
             node = self.start
 
-        # Add the current node to the path
         self.path.append(node)
         visited.add(node)
+        self.nodes_visited += 1
 
-        # If the current node is one of the target nodes
         if node in self.end:
             self.found = True
+            self.goal_node = node
             return
 
-        # For each neighbor, if not visited, recursively search
         for neighbor in self.graph.get_neighbors(node):
             if neighbor not in visited and not self.found:
                 self.dfs_calculate(neighbor, visited)
                 if self.found:
                     return
 
-        # If the destination cannot be reached from the current node, backtrack
         self.path.pop()
         visited.remove(node)
 
     def get_result(self):
-        if not self.path or not self.found:
-            return "No path found"
-        return self.path
+        if not self.found:
+            return None, self.nodes_visited, self.path
+        return self.goal_node, self.nodes_visited, self.path,
