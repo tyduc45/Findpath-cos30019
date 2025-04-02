@@ -40,7 +40,7 @@ def main():
 
     astar = Astar(graph, origin, destinations)
     astar.search()
-    path, goal, count = astar.get_result()
+    goal, count, path = astar.get_result()
 
     bfs = BFS(graph, origin, destinations)
     bfs.bfs_calculate()

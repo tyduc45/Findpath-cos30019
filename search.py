@@ -56,7 +56,7 @@ def main():
     elif method == "AS":
         search_algo = Astar(graph, origin, destinations)
         search_algo.search()
-        path, goal, count = search_algo.get_result()
+        goal, count, path = search_algo.get_result()
     elif method == "CUS1":
         search_algo = CUS1(graph, origin, destinations)
         result = search_algo.result()

@@ -102,6 +102,6 @@ class Astar:
 
     def get_result(self):
         if hasattr(self, "result_path") and self.result_path:
-            return self.result_path, self.result_path[-1], self.nodes_created
+            return self.result_path[-1], self.nodes_created, self.result_path
         else:
             return None, None, self.nodes_created
