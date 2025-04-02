@@ -17,6 +17,7 @@ ALGORITHMS = {
 }
 
 def main():
+    global goal, count, path
     if len(sys.argv) != 3:
         print("Usage: python search.py <filename> <method>")
         sys.exit(1)
@@ -44,28 +45,35 @@ def main():
     if method == "DFS":
         search_algo = DFS(graph, origin, destinations)
         search_algo.dfs_calculate()
-        result = search_algo.get_result()
+        goal, count, path = search_algo.get_result()
     elif method == "BFS":
         search_algo = BFS(graph, origin, destinations)
         search_algo.bfs_calculate()
-        result = search_algo.get_result()
+        goal, count, path = search_algo.get_result()
     elif method == "GBFS":
         search_algo = GBFS(graph, origin, destinations)
         search_algo.gbfs_calculate()
-        result = search_algo.get_result()
+        goal, count, path = search_algo.get_result()
     elif method == "AS":
         search_algo = Astar(graph, origin, destinations)
         search_algo.search()
         goal, count, path = search_algo.get_result()
     elif method == "CUS1":
         search_algo = CUS1(graph, origin, destinations)
-        result = search_algo.result()
+        goal, count, path = search_algo.result()
     elif method == "CUS2":
         search_algo = CUS2(graph, origin, destinations)
-        result = search_algo.result()
+        goal, count, path = search_algo.result()
     else:
         print(f"Invalid method: {method}. Choose from DFS, BFS, GBFS, AS, CUS1, CUS2")
         sys.exit(1)
+
+    print(f"{filename} {method}")
+    print(f"{goal} {count}")
+    if path:
+        print(" -> ".join(str(node) for node in path))
+    else:
+        print("No path found.")
 
 if __name__ == "__main__":
     main()
