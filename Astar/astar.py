@@ -50,16 +50,9 @@ class Astar:
         if coord_node != (None, None) and coord_goal != (None, None):
             x1, y1 = coord_node
             x2, y2 = coord_goal
-            euclidean = self.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+            return self.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
         else:
-            euclidean = self.abs_val(node - goal)
-
-        neighbors = self.graph.get_neighbors(node)
-        if neighbors:
-            min_edge_cost = min(neighbors.values())
-            return min(euclidean, min_edge_cost)
-        else:
-            return euclidean
+            return self.abs_val(node - goal)
 
     # Compute the square root using Newton's method.
     def sqrt(self, n, precision=1e-10):
