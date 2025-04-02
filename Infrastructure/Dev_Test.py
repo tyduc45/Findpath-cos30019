@@ -39,7 +39,8 @@ def main():
     result2 = gbfs.get_result()
 
     astar = Astar(graph, origin, destinations)
-    result3 = astar.search()
+    astar.search()
+    path, goal, count = astar.get_result()
 
     bfs = BFS(graph, origin, destinations)
     bfs.bfs_calculate()
@@ -57,8 +58,11 @@ def main():
 
     print("\nDFS Result:", result)
     print("\nGBFS Result:", result2)
-    print("\nA* Result:", result3)
     print("\nBFS Result:", result4)
+    print("\nA* Result:\n")
+    print("Goal: ", goal)
+    print("Cout: ", count)
+    print("Path: ", path)
 
 if __name__ == "__main__":
     main()

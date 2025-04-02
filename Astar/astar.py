@@ -27,18 +27,14 @@ from Infrastructure.Min_Heap import MinHeap
 from Infrastructure.Itertools import Counter
 
 class Astar:
-    # Initialize A* search parameters.
-    # param graph: Graph instance
-    # param start: Start node
-    # param destinations: List of possible goal nodes
     def __init__(self, graph, start, destinations):
         self.graph = graph
         self.start = start
         self.destinations = destinations
-        # Select the nearest goal using the heuristic function
         self.goal = min(destinations, key=lambda d: self.heuristic(start, d))
-        # Unique counter for tie-breaking using our custom Counter
         self.tiebreaker = Counter()
+        self.nodes_created = 0
+        self.result_path = None
 
     # Returns the absolute value of a number
     def abs_val(self, x):
@@ -48,11 +44,22 @@ class Astar:
     # For numeric nodes, use absolute difference.
     # If nodes are coordinates (tuple), use Euclidean distance.
     def heuristic(self, node, goal):
-        if isinstance(node, tuple):
-            x1, y1 = node
-            x2, y2 = goal
-            return self.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
-        return self.abs_val(node - goal)
+        coord_node = self.graph.get_coordinates(node)
+        coord_goal = self.graph.get_coordinates(goal)
+
+        if coord_node != (None, None) and coord_goal != (None, None):
+            x1, y1 = coord_node
+            x2, y2 = coord_goal
+            euclidean = self.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+        else:
+            euclidean = self.abs_val(node - goal)
+
+        neighbors = self.graph.get_neighbors(node)
+        if neighbors:
+            min_edge_cost = min(neighbors.values())
+            return min(euclidean, min_edge_cost)
+        else:
+            return euclidean
 
     # Compute the square root using Newton's method.
     def sqrt(self, n, precision=1e-10):
@@ -70,8 +77,6 @@ class Astar:
     # return: List of nodes representing the shortest path, or None if no path is found.
     def search(self):
         heap = MinHeap()
-        # Push initial node:
-        # f = 0, g = 0, path_tuple = empty tuple, tie = next counter, node = start, path = empty list
         heap.push((0, 0, tuple([]), self.tiebreaker.next(), self.start, []))
 
         # Dictionary to store the best g(n) for each node
@@ -82,9 +87,11 @@ class Astar:
             # and if still equal, the insertion order is used.
             f, g, path_tuple, tie, node, path = heap.pop()
             new_path = path + [node]  # Create a new path list
+            self.nodes_created += 1
 
             # If current node is a goal, return the path
             if node in self.destinations:
+                self.result_path = new_path
                 return new_path
 
             # Expand neighbors
@@ -99,3 +106,9 @@ class Astar:
 
         # No path found
         return None
+
+    def get_result(self):
+        if hasattr(self, "result_path") and self.result_path:
+            return self.result_path, self.result_path[-1], self.nodes_created
+        else:
+            return None, None, self.nodes_created
