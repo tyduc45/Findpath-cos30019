@@ -5,28 +5,31 @@ class BFS:
         self.graph = graph
         self.origin = origin
         self.destinations = destinations
-        self.path = None  # 只保存路径
+        self.result = None  # (goal_node, expanded_count, path)
 
     def bfs_calculate(self):
         visited = set()
         queue = deque()
-        queue.append((self.origin, [self.origin]))  # (当前节点, 路径)
+        queue.append((self.origin, [self.origin]))
+        nodes_expanded = 0  # 用于统计被“扩展”的节点数量
 
         while queue:
             current, path = queue.popleft()
             if current in visited:
                 continue
             visited.add(current)
+            nodes_expanded += 1  # 每次真正扩展一个节点就 +1
 
             if current in self.destinations:
-                self.path = path
+                self.result = (current, nodes_expanded, path)
                 return
 
             for neighbor in sorted(self.graph.get_neighbors(current)):
                 if neighbor not in visited:
                     queue.append((neighbor, path + [neighbor]))
 
-        self.path = []  # 没找到路径
+        self.result = (None, nodes_expanded, [])
 
     def get_result(self):
-        return self.path
+        return self.result
+
