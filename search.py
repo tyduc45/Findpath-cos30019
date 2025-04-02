@@ -4,6 +4,8 @@ from Infrastructure.Graph import Graph
 from algorithm_jzy.dfs import DFS
 from algorithm_jzy.gbfs import GBFS
 from bfs import BFS
+from cus1 import CUS1
+from cus2 import CUS2
 
 ALGORITHMS = {
     "DFS": DFS,
@@ -55,6 +57,13 @@ def main():
         search_algo = Astar(graph, origin, destinations)
         result = search_algo.search()
     # Didn't add 2 cus logic
+    elif method == "CUS1":
+        search_algo = CUS1(graph, origin, destinations)
+        result = search_algo.result()
+    elif method == "CUS2":
+        search_algo = CUS2(graph, origin, destinations)
+        result = search_algo.result()
+
     else:
         print(f"Invalid method: {method}. Choose from DFS, BFS, GBFS, AS, CUS1, CUS2")
         sys.exit(1)

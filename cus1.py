@@ -6,48 +6,69 @@ from Infrastructure.Graph import Graph
 
 # compare order dist,node_id, insertion_order
 
-def reconstruct_path(prev, start, end):
-    path = []  # Path stack
-    current = end
-    while current != -1:
-        path.append(current)  # Backtrace path: end → start
-        if current == start:
-            break
-        current = prev[current]
-    if path[-1] != start:
-        return []  # If start node is not reached, return empty path
-    return path[::-1]  # Reverse path to get start → end
+class CUS1:
+    def __init__(self, graph, start, destinations):
+        self.graph = graph
+        self.start = start
+        self.destinations = destinations
 
-# Dijkstra’s algorithm for shortest path
-def dijkstra(graph, start):
-    number = 0
-    node_list = graph.get_nodes()  # Retrieve nodes from graph
-    visited = set()  # Set of visited nodes
-    prev = [-1] * (len(node_list) + 1)  # Previous node for each node
-    dist = {node: float('inf') for node in node_list}  # Initialize distances to ∞
-    dist[start] = 0
+    def reconstruct_path(self, prev, start, end):
+        path = []  # Path stack
+        current = end
+        while current != -1:
+            path.append(current)  # Backtrace path: end → start
+            if current == start:
+                break
+            current = prev[current]
+        if path[-1] != start:
+            return []  # If start node is not reached, return empty path
+        return path[::-1]  # Reverse path to get start → end
 
-    pq = MinHeap()
-    pq.push((0, start))
+    # Dijkstra’s algorithm for shortest path
+    def dijkstra(self, graph, start):
+        number = 0
+        node_list = graph.get_nodes()  # Retrieve nodes from graph
+        visited = set()  # Set of visited nodes
+        prev = [-1] * (len(node_list) + 1)  # Previous node for each node
+        dist = {node: float('inf') for node in node_list}  # Initialize distances to ∞
+        dist[start] = 0
 
-    while len(pq) > 0:
-        current_dist, node = pq.pop()
+        pq = MinHeap()
+        pq.push((0, start))
 
-        if node in visited:
-            continue
-        visited.add(node)
-        number += 1
+        while len(pq) > 0:
+            current_dist, node = pq.pop()
 
-        for neighbor in graph.get_neighbors(node):  # Relaxation step
-            new_dist = current_dist + graph.get_edge_weight(node, neighbor)  # d[v] = min(d[v], d[u] + w(u,v))
-            if new_dist < dist[neighbor]:  # If a shorter path is found
-                prev[neighbor] = node
-                dist[neighbor] = new_dist
-                pq.push((new_dist, neighbor))
+            if node in visited:
+                continue
+            visited.add(node)
+            number += 1
 
-    return dist, prev, number
+            for neighbor in graph.get_neighbors(node):  # Relaxation step
+                new_dist = current_dist + graph.get_edge_weight(node, neighbor)  # d[v] = min(d[v], d[u] + w(u,v))
+                if new_dist < dist[neighbor]:  # If a shorter path is found
+                    prev[neighbor] = node
+                    dist[neighbor] = new_dist
+                    pq.push((new_dist, neighbor))
+
+        return dist, prev, number
+
+    def result(self):
+        dist, prev, number_of_nodes = self.dijkstra(self.graph, self.start)  # Run Dijkstra’s algorithm
+        print("goal:", self.destinations, "number_of_nodes:", number_of_nodes)
+
+        print("path: ")
+        for destination in self.destinations:
+            path = self.reconstruct_path(prev, self.start, destination)
+            for node in path:
+                if node is not destination:
+                    print(node, end="->")
+                else:
+                    print(node, end="\n")
+
 
 # Main function for command-line execution
+'''
 if __name__ == "__main__":
     import sys
 
@@ -72,3 +93,4 @@ if __name__ == "__main__":
                 print(node, end="->")
             else:
                 print(node, end="\n")
+'''
