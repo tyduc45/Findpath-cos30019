@@ -5,12 +5,12 @@ class BFS:
         self.graph = graph
         self.origin = origin
         self.destinations = destinations
-        self.path = None  # 只保存路径
+        self.path = None
 
     def bfs_calculate(self):
         visited = set()
         queue = deque()
-        queue.append((self.origin, [self.origin]))  # (当前节点, 路径)
+        queue.append((self.origin, [self.origin]))
 
         while queue:
             current, path = queue.popleft()
@@ -26,7 +26,7 @@ class BFS:
                 if neighbor not in visited:
                     queue.append((neighbor, path + [neighbor]))
 
-        self.path = []  # 没找到路径
+        self.path = []
 
     def get_result(self):
         return self.path

@@ -1,6 +1,5 @@
 # dijkstra
 from Infrastructure.Min_Heap import MinHeap
-from Infrastructure.Graph import Graph
 
 # written in Yifan Li 105205224
 
