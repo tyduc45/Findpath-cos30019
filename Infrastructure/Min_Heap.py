@@ -28,7 +28,7 @@ class MinHeap:
     # Maintain heap property from bottom to top
     def heapify_up(self, index):
         parent = (index - 1) // 2
-        while index > 0 and self.heap[index][0] < self.heap[parent][0]:  # Compare f(n)
+        while index > 0 and self.compare(self.heap[index],self.heap[parent]) < 0:  # Compare f(n)
             self.heap[index], self.heap[parent] = self.heap[parent], self.heap[index]  # Swap
             index = parent
             parent = (index - 1) // 2
@@ -63,11 +63,11 @@ class MinHeap:
             smallest = index
 
             # Compare with left child
-            if left < size and self.heap[left][0] < self.heap[smallest][0]:
+            if left < size and self.compare(self.heap[left], self.heap[smallest]) < 0:
                 smallest = left
 
             # Compare with right child
-            if right < size and self.heap[right][0] < self.heap[smallest][0]:
+            if right < size and self.compare(self.heap[right],self.heap[smallest]) < 0:
                 smallest = right
 
             if smallest == index:

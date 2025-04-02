@@ -26,6 +26,7 @@ class CUS2:
         path = [start]
 
         visited_set = {start}
+
         start_Cor = graph.get_position(start)
         goal_Cor = graph.get_position(goal)
 
