@@ -39,7 +39,6 @@ def main():
     # Debuging use, Please delete after entire debugging
     print(f"Parsed Graph from {filename}")
     print(f"Origin: {origin}, Destinations: {destinations}")
-    print("Graph structure:")
     graph.print_graph()
 
     if method == "DFS":
@@ -71,7 +70,7 @@ def main():
     print(f"{filename} {method}")
     print(f"{goal} {count}")
     if path:
-        print(" -> ".join(str(node) for node in path))
+        print(path)
     else:
         print("No path found.")
 
