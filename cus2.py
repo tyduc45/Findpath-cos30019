@@ -8,6 +8,8 @@
 
 # written in Yifan Li 105205224
 
+from Infrastructure.Min_Heap import MinHeap
+
 
 class CUS2:
     def __init__(self, graph, start, destinations):
@@ -15,14 +17,24 @@ class CUS2:
         self.start = start
         self.destinations = destinations
 
+    def sqrt(self, n, precision=1e-10):
+        if n < 0:
+            raise ValueError("Cannot compute square root of a negative number")
+        if n == 0:
+            return 0
+        x = n  # Initial guess
+        while abs(x * x - n) > precision:
+            x = (x + n / x) / 2
+        return x
+
     def h_func(self,start, goal):
-        return abs(start[0] - goal[0]) + abs(start[1] - goal[1])
+        return self.sqrt((start[0] - goal[0])*(start[0] - goal[0]) + (start[1] - goal[1])*(start[1] - goal[1]))
 
     def Ida_star(self,start, goal, graph):
         visited_node = 0
         path = [start]
 
-        visited_set = {start}
+
 
         start_Cor = graph.get_position(start)
         goal_Cor = graph.get_position(goal)
@@ -44,12 +56,8 @@ class CUS2:
                 if neighbor in path:
                     continue
 
-                if neighbor in visited_set:
-                    continue
-                visited_set.add(neighbor)
-                visited_node += 1
-
                 path.append(neighbor)
+                visited_node += 1
                 weight = graph.get_edge_weight(node, neighbor)
 
                 temp = dfs(neighbor, g_func + weight, threshold)
@@ -58,7 +66,6 @@ class CUS2:
                 if isinstance(temp, (int, float)) and temp < min_threshold:
                     min_threshold = temp
                 path.pop()  # not found in [A,B,C], then we back track to [A,B]
-                visited_set.remove(neighbor)  # delete access record
             return min_threshold
 
         while True:
@@ -71,25 +78,25 @@ class CUS2:
                 return [], visited_node  # no solution
             threshold = temp  # iterative deepen
 
+    def calculate_cost(self,path):
+        cost = 0
+        for i in range(len(path) - 1):
+            cost += self.graph.get_edge_weight(path[i], path[i+1])
+        return cost
+
     def result(self):
-        pathSheet = []
+        pathSheet = MinHeap()
         total = 0
 
         for destination in self.destinations:
             path, visited_nodes = self.Ida_star(self.start, destination, self.graph)
-            pathSheet.append(path)
+            dist = self.calculate_cost(path)
+            pathSheet.push((dist,path))
             total += visited_nodes
 
-        print("goal:", self.destinations, "number_of_nodes: ", total)
+        path = pathSheet.pop()
 
-        print("path: ")
-        for path in pathSheet:
-            for node in path:
-                if node != path[-1]:
-                    print(node, end="->")
-                else:
-                    print(node, end=" ")
-            print("\n")
+        return path[1][-1], total, path[1]
 
 
 '''

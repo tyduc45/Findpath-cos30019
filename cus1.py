@@ -55,15 +55,18 @@ class CUS1:
     def result(self):
         dist, prev, number_of_nodes = self.dijkstra(self.graph, self.start)  # Run Dijkstra’s algorithm
         print("goal:", self.destinations, "number_of_nodes:", number_of_nodes)
+        pathSheet = MinHeap()
 
-        print("path: ")
+
         for destination in self.destinations:
             path = self.reconstruct_path(prev, self.start, destination)
-            for node in path:
-                if node is not destination:
-                    print(node, end="->")
-                else:
-                    print(node, end="\n")
+            pathSheet.push((dist[destination],path))
+
+        path = pathSheet.pop()
+
+
+        return path[1][-1],number_of_nodes,path[1]
+
 
 
 # Main function for command-line execution

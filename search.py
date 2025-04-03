@@ -63,6 +63,7 @@ def main():
     elif method == "CUS2":
         search_algo = CUS2(graph, origin, destinations)
         goal, count, path = search_algo.result()
+
     else:
         print(f"Invalid method: {method}. Choose from DFS, BFS, GBFS, AS, CUS1, CUS2")
         sys.exit(1)
