@@ -33,6 +33,7 @@ class CUS2:
     def Ida_star(self,start, goal, graph):
         visited_node = 0
         path = [start]
+        visited_set = set()
 
 
 
@@ -57,7 +58,10 @@ class CUS2:
                     continue
 
                 path.append(neighbor)
-                visited_node += 1
+                if node not in visited_set:
+                    visited_set.add(node)
+                    visited_node += 1
+
                 weight = graph.get_edge_weight(node, neighbor)
 
                 temp = dfs(neighbor, g_func + weight, threshold)
@@ -91,12 +95,11 @@ class CUS2:
         for destination in self.destinations:
             path, visited_nodes = self.Ida_star(self.start, destination, self.graph)
             dist = self.calculate_cost(path)
-            pathSheet.push((dist,path))
-            total += visited_nodes
+            pathSheet.push((dist,path,visited_nodes))
 
         path = pathSheet.pop()
 
-        return path[1][-1], total, path[1]
+        return path[1][-1], path[2], path[1]
 
 
 '''
