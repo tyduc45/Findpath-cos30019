@@ -32,7 +32,7 @@ class DFS:
             return
 
         # Recursively traverse adjacent nodes
-        for neighbor in self.graph.get_neighbors(node):
+        for neighbor in sorted(self.graph.get_neighbors(node).keys()):
             if neighbor not in visited:
                 self.dfs_calculate(neighbor, visited)
                 if self.found:
