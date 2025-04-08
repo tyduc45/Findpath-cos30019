@@ -19,6 +19,7 @@
 
 import os
 import subprocess
+import time
 
 TEST_CASE_DIR = "test_case/"
 
@@ -35,13 +36,21 @@ def run_tests():
             full_path = os.path.join(TEST_CASE_DIR, file)
             print(f"\n→ Running {file} with {algo}")
             try:
+                start_time = time.perf_counter()
+
                 result = subprocess.run(
                     [PYTHON_CMD, "search.py", full_path, algo],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True
                 )
+
+                end_time = time.perf_counter()
+                elapsed_ms = (end_time - start_time) * 1000
+
                 print(result.stdout)
+                print(f"[Time taken]: {elapsed_ms:.2f} ms")
+
                 if result.stderr:
                     print("[ERROR]", result.stderr)
             except Exception as e:
