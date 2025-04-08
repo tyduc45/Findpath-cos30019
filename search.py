@@ -36,11 +36,6 @@ def main():
         print("Error parsing graph. Exiting.")
         sys.exit(1)
 
-    # Debuging use, Please delete after entire debugging
-    print(f"Parsed Graph from {filename}")
-    print(f"Origin: {origin}, Destinations: {destinations}")
-    graph.print_graph()
-
     if method == "DFS":
         search_algo = DFS(graph, origin, destinations)
         search_algo.dfs_calculate()
@@ -69,11 +64,10 @@ def main():
         sys.exit(1)
 
     print(f"{filename} {method}")
-    print(f"{goal} {count}")
-    if path:
-        print(path)
-    else:
-        print("No path found.")
+    print(f"Goal Node: {goal}")
+    print(f"Nodes Expanded: {count}")
+    print("Path:", " -> ".join(map(str, path)) if path else "No path found.")
+
 
 if __name__ == "__main__":
     main()
