@@ -58,7 +58,7 @@ class CUS2:
                 if node not in visited_set:
                     visited_set.add(node)
                     visited_node += 1
-                    print("node added:",node,"current visited node:",visited_node)
+                    # print("node added:",node,"current visited node:",visited_node)
 
                 if neighbor in path:
                     continue
