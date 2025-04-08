@@ -64,10 +64,11 @@ def main():
         sys.exit(1)
 
     print(f"{filename} {method}")
-    print(f"Goal Node: {goal}")
-    print(f"Nodes Expanded: {count}")
-    print(f"Path: {path if path else 'No path found.'}")
-
+    print(f"{goal} {count}")
+    if path:
+        print(path)
+    else:
+        print("No path found.")
 
 if __name__ == "__main__":
     main()
