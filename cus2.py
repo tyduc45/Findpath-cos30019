@@ -51,16 +51,18 @@ class CUS2:
             if f_func > threshold:
                 return f_func
             if node == goal:
+                visited_node += 1
                 return "FOUND"
 
             for neighbor in graph.get_neighbors(node):
-                if neighbor in path:
-                    continue
-
-                path.append(neighbor)
                 if node not in visited_set:
                     visited_set.add(node)
                     visited_node += 1
+                    print("node added:",node,"current visited node:",visited_node)
+
+                if neighbor in path:
+                    continue
+                path.append(neighbor)
 
                 weight = graph.get_edge_weight(node, neighbor)
 
