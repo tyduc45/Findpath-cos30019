@@ -7,30 +7,51 @@ class GBFS:
     def __init__(self, graph, start: int, ends: list):
         self.graph = graph
         self.start = start
-        self.ends = set(ends)  # Convert to a set to speed up lookup
+        self.ends = set(ends)
+        self.goal = self.select_goal()
         self.heap = MinHeap()
-        self.came_from = {}  # Record the predecessor of each node
-        self.nodes_expanded = 0  # Record the number of visited (expanded) nodes
+        self.came_from = {}
+        self.nodes_expanded = 0
         self.end = None
 
+    def euclidean_distance(self, node1, node2):
+        # Calculate the Euclidean distance between two nodes (as a heuristic function)
+        x1, y1 = self.graph.get_coordinates(node1)
+        x2, y2 = self.graph.get_coordinates(node2)
+        return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5  # Calculate Euclidean distance
+
+    def select_goal(self):
+        # Select the target node closest to the starting point
+        x0, y0 = self.graph.get_coordinates(self.start)
+        min_goal = None
+        min_dist = float("inf")
+        for end in self.ends:
+            x1, y1 = self.graph.get_coordinates(end)
+            dist = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
+            if dist < min_dist:
+                min_dist = dist
+                min_goal = end
+        return min_goal
+
     def gbfs_calculate(self) -> bool:
-        # Use MinHeap to search nodes sorted by heuristic value until any target node is found.
-        # Returns True if the target node is found, otherwise returns False.
-        self.heap.push((0, self.start))
+        self.heap.push((0, self.start)) # Initial point into the heap, heuristic value is set to 0
         self.came_from[self.start] = None
 
         while self.heap:
-            current_cost, current_node = self.heap.pop()
+            # Pop the node with the smallest heuristic value from the heap
+            _, current = self.heap.pop()
             self.nodes_expanded += 1
 
-            if current_node in self.ends:
-                self.end = current_node
+            if current == self.goal:
+                self.end = current
                 return True
 
-            for neighbor, cost in self.graph.get_neighbors(current_node).items():
+            # Traverse all neighbors of the current node
+            for neighbor in sorted(self.graph.get_neighbors(current)):
                 if neighbor not in self.came_from:
-                    self.came_from[neighbor] = current_node
-                    self.heap.push((cost, neighbor))  # Use only cost for heuristic sorting
+                    self.came_from[neighbor] = current
+                    heuristic = self.euclidean_distance(neighbor, self.goal)
+                    self.heap.push((heuristic, neighbor)) # Use heuristic value to push into the heap
 
         return False
 
@@ -39,10 +60,9 @@ class GBFS:
             return None, None, self.nodes_expanded
 
         path = []
-        step = self.end
-        while step is not None:
-            path.append(step)
-            step = self.came_from.get(step)
+        node = self.end
+        while node is not None:
+            path.append(node)
+            node = self.came_from[node]
         path.reverse()
-
         return self.end, self.nodes_expanded, path
