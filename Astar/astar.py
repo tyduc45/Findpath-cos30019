@@ -70,7 +70,7 @@ class Astar:
     # return: List of nodes representing the shortest path, or None if no path is found.
     def search(self):
         heap = MinHeap()
-        heap.push((0, 0, tuple([]), self.tiebreaker.next(), self.start, []))
+        heap.push((0, 0, self.start, self.tiebreaker.next(), tuple([]), []))
 
         # Dictionary to store the best g(n) for each node
         g_costs = {self.start: 0}
@@ -78,7 +78,7 @@ class Astar:
         while len(heap) > 0:
             # Pop the node with smallest f; tie-breaker ensures that if f and g are same, lex order of path is used,
             # and if still equal, the insertion order is used.
-            f, g, path_tuple, tie, node, path = heap.pop()
+            f, g, node, tie, path_tuple, path = heap.pop()
             new_path = path + [node]  # Create a new path list
             self.nodes_created += 1
 
@@ -95,7 +95,7 @@ class Astar:
                     g_costs[neighbor] = new_g
                     new_f = new_g + self.heuristic(neighbor, self.goal)
                     new_path_tuple = tuple(new_path + [neighbor])  # For lexicographical tie-breaking
-                    heap.push((new_f, new_g, new_path_tuple, self.tiebreaker.next(), neighbor, new_path))
+                    heap.push((new_f, new_g, neighbor, self.tiebreaker.next(), new_path_tuple, new_path))
 
         # No path found
         return None
