@@ -66,7 +66,7 @@ def main():
     print(f"{filename} {method}")
     print(f"Goal Node: {goal}")
     print(f"Nodes Expanded: {count}")
-    print("Path:", " -> ".join(map(str, path)) if path else "No path found.")
+    print(f"Path: {path if path else 'No path found.'}")
 
 
 if __name__ == "__main__":
