@@ -54,18 +54,26 @@ class CUS2:
                 visited_node += 1
                 return "FOUND"
 
-            for neighbor in graph.get_neighbors(node):
+            neighbors = graph.get_neighbors(node)
+            sorted_neighbors = sorted(
+                neighbors,
+                key=lambda neighbor: (  # sorting keywords
+                    g_func + graph.get_edge_weight(node, neighbor) + self.h_func(graph.get_position(neighbor), goal_Cor),  # main key：f_func
+                    neighbor # secondary key:  when all else are equal, sorted by node index
+                )
+            )
+
+            for neighbor in sorted_neighbors:
                 if node not in visited_set:
                     visited_set.add(node)
                     visited_node += 1
-                    # print("node added:",node,"current visited node:",visited_node)
+
 
                 if neighbor in path:
                     continue
                 path.append(neighbor)
 
                 weight = graph.get_edge_weight(node, neighbor)
-
                 temp = dfs(neighbor, g_func + weight, threshold)
                 if temp == "FOUND":
                     return "FOUND"
