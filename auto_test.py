@@ -32,6 +32,10 @@ PYTHON_CMD = "python"
 def run_tests():
     for algo in ALGORITHMS:
         print(f"\n==== Testing algorithm: {algo} ====")
+
+        total_time = 0.0
+        num_tests = 0
+
         for file in test_files:
             full_path = os.path.join(TEST_CASE_DIR, file)
             print(f"\n→ Running {file} with {algo}")
@@ -47,6 +51,8 @@ def run_tests():
 
                 end_time = time.perf_counter()
                 elapsed_ms = (end_time - start_time) * 1000
+                total_time += elapsed_ms
+                num_tests += 1
 
                 print(result.stdout)
                 print(f"[Time taken]: {elapsed_ms:.2f} ms")
@@ -55,6 +61,10 @@ def run_tests():
                     print("[ERROR]", result.stderr)
             except Exception as e:
                 print(f"[Exception] Failed to run {file} with {algo}: {e}")
+
+        if num_tests > 0:
+            avg_time = total_time / num_tests
+            print(f"\n>> Average time for {algo}: {avg_time:.2f} ms")
 
 if __name__ == "__main__":
     run_tests()
