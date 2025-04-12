@@ -51,7 +51,7 @@ class CUS1:
                     pq.push((new_dist, neighbor))
 
         return dist, prev, number
-
+    
     def result(self):
         dist, prev, number_of_nodes = self.dijkstra(self.graph, self.start)  # Run Dijkstra’s algorithm
         print("goal:", self.destinations, "number_of_nodes:", number_of_nodes)
@@ -64,6 +64,9 @@ class CUS1:
 
         path = pathSheet.pop()
 
+        # goal, count, path = search_algo.result()
+        if len(path[1]) == 0:
+            return "Unreachable", number_of_nodes, []
 
         return path[1][-1],number_of_nodes,path[1]
 

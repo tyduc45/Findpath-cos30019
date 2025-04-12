@@ -108,6 +108,9 @@ class CUS2:
             pathSheet.push((dist,path,visited_nodes))
 
         path = pathSheet.pop()
+        # goal, count, path = search_algo.result()
+        if len(path[1]) == 0:
+            return "Unreachable", path[2], []
 
         return path[1][-1], path[2], path[1]
 
