@@ -98,10 +98,12 @@ class Astar:
                     heap.push((new_f, new_g, neighbor, self.tiebreaker.next(), new_path_tuple, new_path))
 
         # No path found
+        self.result_path = None
         return None
 
     def get_result(self):
-        if hasattr(self, "result_path") and self.result_path:
+        if self.result_path:
             return self.result_path[-1], self.nodes_created, self.result_path
         else:
-            return None, None, self.nodes_created
+            print("No path found.")
+            return "NoPath", self.nodes_created, []
