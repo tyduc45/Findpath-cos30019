@@ -106,4 +106,4 @@ class Astar:
             return self.result_path[-1], self.nodes_created, self.result_path
         else:
             print("No path found.")
-            return "NoPath", self.nodes_created, []
+            return "Unreachable", self.nodes_created, []
