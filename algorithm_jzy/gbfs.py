@@ -57,7 +57,7 @@ class GBFS:
 
     def get_result(self):
         if self.end is None:
-            return None, None, self.nodes_expanded
+            return "Unreachable", self.nodes_expanded, None
 
         path = []
         node = self.end

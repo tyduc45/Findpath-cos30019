@@ -41,9 +41,8 @@ class DFS:
         # Backtracking cleanup is performed only when the target is not found to ensure that the final path is not destroyed
         if not self.found:
             self.path.pop()
-            visited.remove(node)
 
     def get_result(self):
         if not self.found:
-            return None, self.nodes_expanded, self.path
+            return "Unreachable", self.nodes_expanded, self.path
         return self.goal_node, self.nodes_expanded, self.path
