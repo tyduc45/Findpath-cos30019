@@ -64,8 +64,8 @@ class CUS2:
             )
 
             for neighbor in sorted_neighbors:
-                if node not in visited_set:
-                    visited_set.add(node)
+                if neighbor not in visited_set:
+                    visited_set.add(neighbor)
                     visited_node += 1
 
 
