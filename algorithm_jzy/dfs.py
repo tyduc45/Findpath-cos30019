@@ -5,42 +5,30 @@ class DFS:
     def __init__(self, graph, start, end):
         self.graph = graph
         self.start = start
-        self.end = set(end)  # Convert to a set to speed up lookup
-        self.path = []       # Current Path
+        self.end = set(end)
+        self.path = []
         self.found = False
         self.nodes_expanded = 0
-        self.goal_node = None  # The actual destination
+        self.goal_node = None
 
-    def dfs_calculate(self, node: int = None, visited: set = None):
-        # If the target has been found, return directly to avoid unnecessary recursion
-        if self.found:
-            return
+    def dfs_calculate(self):
+        stack = [(self.start, [self.start], {self.start})]  # (current_node, path, visited_set)
 
-        if visited is None:
-            visited = set()
-        if node is None:
-            node = self.start
+        while stack:
+            current_node, path, visited = stack.pop()
+            self.nodes_expanded += 1
 
-        self.path.append(node)
-        visited.add(node)
-        self.nodes_expanded += 1
+            if current_node in self.end:
+                self.found = True
+                self.goal_node = current_node
+                self.path = path
+                return
 
-        # If the current node is one of the targets, it is marked successfully and returned
-        if node in self.end:
-            self.found = True
-            self.goal_node = node
-            return
-
-        # Recursively traverse adjacent nodes
-        for neighbor in sorted(self.graph.get_neighbors(node).keys()):
-            if neighbor not in visited:
-                self.dfs_calculate(neighbor, visited)
-                if self.found:
-                    return
-
-        # Backtracking cleanup is performed only when the target is not found to ensure that the final path is not destroyed
-        if not self.found:
-            self.path.pop()
+            for neighbor in sorted(self.graph.get_neighbors(current_node).keys(), reverse=True):
+                if neighbor not in visited:
+                    new_visited = visited.copy()
+                    new_visited.add(neighbor)
+                    stack.append((neighbor, path + [neighbor], new_visited))
 
     def get_result(self):
         if not self.found:
